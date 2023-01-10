@@ -1,0 +1,50 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<TcPlcObject Version="1.1.0.1" ProductVersion="3.1.4024.12">
+  <POU Name="MAIN" Id="{e98ae1f1-7f18-4f84-aa16-6124f5dd1075}" SpecialFunc="None">
+    <Declaration><![CDATA[PROGRAM MAIN
+VAR
+	//stThisIsOurFirstInstanceOfAstructure : ST_Event;	
+	bBoolean : BOOL := FALSE;
+	
+	eEventType1 : E_EventType := E_EventType.Alarm;
+	eEventSeverity1 : TcEventSeverity := TcEventSeverity.Error ;
+	nEventIdentity1 : UDINT := 42;
+	sEventText1 : STRING (255) := 'This is a scary event';
+	
+	CSVPersitentEventStorage : FB_CSVPersistentEventStorage;
+	EventLogger : EventLogger (CSVPersitentEventStorage);
+	
+END_VAR
+ ]]></Declaration>
+    <Implementation>
+      <ST><![CDATA[(*
+IF NOT bBoolean THEN
+	UpdateEventTimeStampWithSystemTime(stEvent := stThisIsOurFirstInstanceOfAstructure);
+	bBoolean := TRUE;
+END_IF 
+*)
+
+IF bBoolean THEN
+	EventLogger.AddEvent (eEventType1, eEventSeverity1, nEventIdentity1, sEventText1);
+	bBoolean := FALSE;	
+END_IF
+
+CSVPersitentEventStorage ();]]></ST>
+    </Implementation>
+    <LineIds Name="MAIN">
+      <LineId Id="9" Count="0" />
+      <LineId Id="21" Count="0" />
+      <LineId Id="2" Count="0" />
+      <LineId Id="10" Count="0" />
+      <LineId Id="13" Count="0" />
+      <LineId Id="22" Count="0" />
+      <LineId Id="24" Count="0" />
+      <LineId Id="23" Count="0" />
+      <LineId Id="34" Count="0" />
+      <LineId Id="42" Count="0" />
+      <LineId Id="35" Count="0" />
+      <LineId Id="20" Count="0" />
+      <LineId Id="19" Count="0" />
+    </LineIds>
+  </POU>
+</TcPlcObject>
